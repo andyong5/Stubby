@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}title{% endblock %}
+
+{% block content %}
+    <div id="login_div">
+        <p>Find your Stubby today!</p>
+        <img id="google_btn" src="{{ url_for('static', filename = 'btn_google_signin_light_normal_web@2x.png') }}">
+    </div>
+ 
+{% endblock content%}

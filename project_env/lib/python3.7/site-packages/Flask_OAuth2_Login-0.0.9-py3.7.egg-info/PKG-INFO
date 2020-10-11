@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: Flask-OAuth2-Login
+Version: 0.0.9
+Summary: Simple OAuth2 login
+Home-page: https://github.com/marksteve/flask-oauth2-login
+Author: Mark Steve Samson
+Author-email: hello@marksteve.com
+License: MIT
+Description: UNKNOWN
+Platform: UNKNOWN

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}{{title}}{% endblock %}
+
+{% block content %}
+    <div id="stubby_logo">Stubby</div>
+    <div id="login_div">
+    	<p id="error_email">Please sign in with a ucdavis email.</p>
+        <p>Find your Stubby today!</p>
+        <img id="google_btn" src="{{ url_for('static', filename = 'btn_google_signin_light_normal_web@2x.png') }}">
+        <p>Exclusively for UC Davis students only.</p>
+    </div>
+
+
+{% endblock content%}

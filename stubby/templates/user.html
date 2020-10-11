@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Welcome, {{name}}{% endblock %}
+
+{% block content %}
+
+    <div id="stubby_logo">Stubby</div>
+    <div id="info_screen">
+	    <p>Welcome, {{ first_name }}. Your email is {{ email }}</p>
+	    <button id="logout" type="button">Logout!</button>
+     </div>
+{% endblock content%}

@@ -1,0 +1,40 @@
+#stubby_logo{
+    font-size: 13vw;
+    margin: 3vw;
+}
+#info_screen{
+    font-size:5vw;
+    margin:3vw;
+}
+#error_email{
+    color:red;
+    font-size:5vw;
+}
+#find{
+    text-align: center;
+}
+#login_div{
+    font-size: 5vw;
+    margin: 3vw;
+    text-align:center;
+}
+#google_btn{
+    height: 50%;
+    width: 50%;
+}
+body, html, #container {
+    margin: 0;
+    max-height: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    overflow-x: hidden;
+    background: white;
+}
+.content-section {
+margin-top:20px;
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
