@@ -4,7 +4,7 @@ import os
 import secrets
 from PIL import Image
 from datetime import timedelta
-from stubby.forms import RegistrationForm, UpdateAccountForm, PostForm
+from stubby.forms import RegistrationForm, UpdateAccountForm, PostForm, AddClass
 from stubby import app, db
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -34,7 +34,8 @@ def front():
 
 @app.route('/home')
 def home():
-    return render_template('home.html', title="Home")
+    form = AddClass()
+    return render_template('home.html', title="Home", form=form)
 
 
 @app.route('/error')
@@ -92,17 +93,17 @@ def logout():
     return redirect(url_for('front'))
 
 
-# def save_picture(form_picture):
-#     random_hex = secrets.token_hex(8)
-#     _, f_ext = os.path.splitext(form_picture.file_name)
-#     picture_fn = random_hex + f_ext
-#     picture_path = os.path.join(
-#         app.root_path, '/static/profile_pic', picture_fn)
-#     output_size(125, 125)
-#     i = Image.open(form_picture)
-#     i.thumbnail(output_size)
-#     i.save(picture_path)
-#     return picture_fn
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.file_name)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(
+        app.root_path, '/static/profile_pic', picture_fn)
+    output_size(125, 125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+    return picture_fn
 
 
 @app.route('/account', methods=["GET", "POST"])
@@ -128,3 +129,10 @@ def new_post():
         flash("Your post has been created!", 'success')
         return redirect(url_for('home'))
     return render_template('create_post.html', title="New Post", form=form)
+
+
+@app.route('/add_class', methods=["GET", "POST"])
+@login_required
+def add_class():
+    form = AddClass()
+    return render_template('add_class.html', title="Add Classes", form=form)

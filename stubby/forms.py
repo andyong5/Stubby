@@ -26,7 +26,7 @@ class UpdateAccountForm(FlaskForm):
     last_name = StringField('Last Name',
                             validators=[Length(min=2, max=20)])
     picture = FileField('Update Profile Picture', validators=[
-                        FileAllowed(['jpg', 'png'])])
+        FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Update Information')
 
 
@@ -34,3 +34,8 @@ class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Content', validators=[DataRequired()])
     submit = SubmitField('Post')
+
+
+class AddClass(FlaskForm):
+    course = StringField('Course or CRN', validators=[DataRequired()])
+    submit = SubmitField('Add Class')
