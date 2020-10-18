@@ -31,5 +31,5 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
-        value = "Post({}, {})".format(self.title, self.post)
+        value = "Post({}, {})".format(self.id, self.title,)
         return value

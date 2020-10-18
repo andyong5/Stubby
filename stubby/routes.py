@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, session, render_template, request
+from flask import Flask, redirect, url_for, session, render_template, request, flash, abort
 from authlib.integrations.flask_client import OAuth
 import os
 import secrets
@@ -34,8 +34,9 @@ def front():
 
 @app.route('/home')
 def home():
-    form = AddClass()
-    return render_template('home.html', title="Home", form=form)
+    posts = Post.query.all()
+    posts = Post.query.order_by(Post.date_posted.desc())
+    return render_template('home.html', title="Home", posts=posts)
 
 
 @app.route('/error')
@@ -69,13 +70,16 @@ def authorize():
         first_name = session["profile"]['given_name']
         last_name = session["profile"]['family_name']
         email = session["profile"]['email']
+        at_sign_index = email.find("@")
+        username = email[:at_sign_index]
         profile_pic = session["profile"]["picture"]
     else:
         return redirect('/error')
 
     user = User.query.filter_by(email=email).first()
     if not user:
-        user = User(email=email, first_name=first_name, last_name=last_name)
+        user = User(email=email, first_name=first_name,
+                    last_name=last_name, username=username)
         db.session.add(user)
         db.session.commit()
     login_user(user)
@@ -90,7 +94,7 @@ def logout():
     logout_user()
     for key in list(session.keys()):
         session.pop(key)
-    return redirect(url_for('front'))
+    return redirect(url_for('/'))
 
 
 def save_picture(form_picture):
@@ -117,18 +121,71 @@ def account():
         current_user.first_name = form.first_name.data
         current_user.last_name = form.last_name.data
         db.session.commit()
+        flash("Your account has been updated!", 'success')
         return redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.first_name.data = current_user.first_name
+        form.last_name.data = current_user.last_name
     return render_template('account.html', form=form)
 
 
 @app.route('/post/new', methods=["GET", "POST"])
 @login_required
 def new_post():
-    form = postForm()
+    form = PostForm()
     if form.validate_on_submit():
+        post = Post(title=form.title.data,
+                    content=form.content.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
         flash("Your post has been created!", 'success')
         return redirect(url_for('home'))
-    return render_template('create_post.html', title="New Post", form=form)
+    return render_template('create_post.html', title="New Post", form=form, legend="New Post")
+
+
+@app.route('/post/<int:post_id>')
+def post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template("post.html", title=post.title, post=post)
+
+
+@app.route('/post/<int:post_id>/update', methods=["GET", "POST"])
+@login_required
+def update_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    form = PostForm()
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+        db.session.commit()
+        flash("Your post has been updated!", 'success')
+        return redirect(url_for('post', post_id=post.id))
+    elif request.method == 'GET':
+        form.title.data = post.title
+        form.content.data = post.content
+    return render_template('create_post.html', title="Update Post", form=form, legend="Update Post")
+
+
+@app.route('/post/<int:post_id>/delete', methods=["POST"])
+@login_required
+def delete_post(post_id):
+    print(post_id)
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    flash('Your post has been deleted!', 'success')
+    return redirect(url_for('home'))
+
+
+@app.route('/post/new', methods=["GET", "POST"])
+@login_required
+def classes():
+    form = AddClass()
+    return render_template('classes.html', title="Classes", form=form)
 
 
 @app.route('/add_class', methods=["GET", "POST"])
@@ -136,3 +193,10 @@ def new_post():
 def add_class():
     form = AddClass()
     return render_template('add_class.html', title="Add Classes", form=form)
+
+
+@app.route('/user/<int:id>')
+def user_posts(id):
+    user = User.query.filter_by()
+    post = Post.query.filter_by(user_id=user).order_by(Post.date_posted.desc())
+    return render_template('user_posts.html', title="Add Classes", form=form, posts=posts, user=user)

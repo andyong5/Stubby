@@ -28,18 +28,9 @@
     width: 50%;
 }
 
-body,
-html{
-    margin-top: 0;
-    max-height: 100%;
-    max-width: 100%;
-    overflow: hidden;
-    overflow-x: hidden;
-    background: white;
-}
-.container{
+/*.container{
     width: 100%;
-}
+}*/
 .content-section {
     margin-top: 20px;
     background: #ffffff;
@@ -51,6 +42,10 @@ html{
 .col-md-8{
     margin-top: 20px;
 }
+.col-md-4{
+    margin-top: 20px;
+}
+
 .links{
     margin-top: 10px;
 }
