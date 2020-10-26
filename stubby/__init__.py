@@ -1,14 +1,32 @@
 from flask import Flask
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import asc
-from flask_login import LoginManager
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-db = SQLAlchemy(app)
-login_manager = LoginManager(app)
-login_manager.login_view = 'login'
-moment = Moment(app)
-from stubby import routes
+from flask_login import LoginManager
+from stubby.config import Config
+
+
+db = SQLAlchemy()
+login_manager = LoginManager()
+login_manager.login_view = 'users.login'
+moment = Moment()
+
+
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(Config)
+    from stubby.users.routes import users
+    from stubby.posts.routes import posts
+    from stubby.main.routes import main
+    from stubby.errors.handlers import errors
+
+    db.init_app(app)
+    login_manager.init_app(app)
+    moment.init_app(app)
+
+    app.register_blueprint(users)
+    app.register_blueprint(posts)
+    app.register_blueprint(main)
+    app.register_blueprint(errors)
+
+    return app

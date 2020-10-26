@@ -13,12 +13,13 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     first_name = db.Column(db.String(30), nullable=False)
     last_name = db.Column(db.String(30), nullable=False)
+    username = db.Column(db.String(30), nullable=False)
     image_file = db.Column(db.String(200), nullable=False,
                            default='default.jpg')
     posts = db.relationship('Post', backref='author', lazy=True)
 
     def __repr__(self):
-        value = "User({}, {})".format(self.id, self.email)
+        value = "User({}, {}, {})".format(self.id, self.email, self.username)
         return value
 
 

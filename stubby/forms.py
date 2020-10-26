@@ -6,38 +6,6 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from stubby.models import User, Post
 
 
-class RegistrationForm(FlaskForm):
-    first_name = StringField('First Name',
-                             validators=[DataRequired(), Length(min=2, max=20)])
-    last_name = StringField('Last Name',
-                            validators=[DataRequired(), Length(min=2, max=20)])
-    user_name = StringField('Username',
-                            validators=[DataRequired(), Length(min=2, max=20)])
-    submit = SubmitField('Sign Up')
-
-    def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
-        if user:
-            raise ValidationError(
-                'That email is taken. Please choose a different one.')
-
-
-class UpdateAccountForm(FlaskForm):
-    first_name = StringField('First Name',
-                             validators=[Length(min=2, max=20)])
-    last_name = StringField('Last Name',
-                            validators=[Length(min=2, max=20)])
-    picture = FileField('Update Profile Picture', validators=[
-        FileAllowed(['jpg', 'png'])])
-    submit = SubmitField('Update Information')
-
-
-class PostForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    content = TextAreaField('Content', validators=[DataRequired()])
-    submit = SubmitField('Post')
-
-
 class AddClass(FlaskForm):
     course = StringField('Course or CRN', validators=[DataRequired()])
     submit = SubmitField('Add Class')

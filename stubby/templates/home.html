@@ -6,10 +6,10 @@
         <!--      <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}"> -->
         <div class="media-body">
             <div class="article-metadata">
-                <a class="mr-2" href="#">{{ post.author.first_name }}, {{ post.author.last_name }}</a>
+                <a class="mr-2" href="{{url_for('users.user_posts', username=post.author.username)}}">{{ post.author.first_name }}, {{ post.author.last_name }}</a>
                 <small class="text-muted">{{ moment(post.date_posted).fromNow() }}</small>
             </div>
-            <h2><a class="article-title" href="{{url_for('post', post_id=post.id)}}">{{ post.title }}</a></h2>
+            <h2><a class="article-title" href="{{url_for('posts.post', post_id=post.id)}}">{{ post.title }}</a></h2>
             <hr>
             <p class="article-content">{{ post.content }}</p>
         </div>
