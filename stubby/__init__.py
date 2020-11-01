@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
-
+from .api_keys import SECRET_KEY, SQLALCHEMY_DATABASE_URI
 from flask_login import LoginManager
 from stubby.config import Config
 
@@ -13,7 +13,7 @@ moment = Moment()
 
 
 def create_app(config_class=Config):
-    app = Flask(__name__)
+    application = app = Flask(__name__)
     app.config.from_object(Config)
     from stubby.users.routes import users
     from stubby.posts.routes import posts

@@ -1,8 +1,6 @@
-from os import getenv
-from dotenv import load_dotenv
+from .api_keys import SECRET_KEY, SQLALCHEMY_DATABASE_URI
 
-load_dotenv()
 
 class Config:
-    SECRET_KEY = getenv('SECRET_KEY', None)
-    SQLALCHEMY_DATABASE_URI = getenv('SQLALCHEMY_DATABASE_URI', None)
+    SECRET_KEY = SECRET_KEY
+    SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI

@@ -6,6 +6,7 @@ from stubby.users.utils import save_picture
 from authlib.integrations.flask_client import OAuth
 from flask import current_app
 from stubby import db
+from stubby.api_keys import client_id, client_secret
 
 users = Blueprint('users', __name__)
 
@@ -13,8 +14,8 @@ users = Blueprint('users', __name__)
 oauth = OAuth(current_app)
 google = oauth.register(
     name='google',
-    client_id="238435131938-fejoag3giucdk0a1f8e0i5g1jti8t5rl.apps.googleusercontent.com",
-    client_secret="fscGQxjoaNtx7jX04zTRuFnI",
+    client_id=client_id,
+    client_secret=client_secret,
     access_token_url='https://accounts.google.com/o/oauth2/token',
     access_token_params=None,
     authorize_url='https://accounts.google.com/o/oauth2/auth',
@@ -76,7 +77,7 @@ def logout():
     logout_user()
     for key in list(session.keys()):
         session.pop(key)
-    return redirect(url_for('main.home'))
+    return redirect(url_for('main.front'))
 
 
 @users.route('/account', methods=["GET", "POST"])

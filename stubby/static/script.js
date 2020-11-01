@@ -4,11 +4,11 @@ logout = document.getElementById("logout")
 
 if(google_btn != null)
     google_btn.addEventListener('click', () => {
-        location.href = 'http://127.0.0.1:5000/login'
+        location.href = 'http://findmystubby.com/login'
     })
 
 if(logout != null){
     logout.addEventListener('click', () => {
-    location.href = 'http://127.0.0.1:5000/logout'
+    location.href = 'http://findmystubby.com/logout'
     })
 }
